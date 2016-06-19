@@ -10,15 +10,8 @@
 <br/>
 
 
-## Install
-
-### Prerequisite
 
 Make sure that [Fishcake package](http://github.com/nomaed/fishcake) is installed before using the theme.
-
-```fish
-$ omf install fishcake-theme
-```
 
 # License
 
