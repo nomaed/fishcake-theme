@@ -29,9 +29,9 @@ function fish_prompt
   set -l _prompt_prefix_color
   set -l _prompt_char
 
-  if test $last_status -eq 0
-	set _prompt_prefix_color $white
-	set _prompt_char $__fish_prompt_char
+  if set -q last_status; and test "$last_status" -eq 0
+	  set _prompt_prefix_color $white
+	  set _prompt_char $__fish_prompt_char
   else
   	set _prompt_prefix_color $red
   	set _prompt_char '⛔ '
@@ -66,14 +66,14 @@ function fish_prompt
 end
 
 function get_clock_and_status
-  echo ' '
-  if set -q argv; and test $argv[1] -ne 0
-    set_color red; echo ''
-    set_color -bred black; echo $argv[1]; set_color normal
-    set_color red; echo ' '
+  set -l exitcode $argv[1]
+  if test "$exitcode" -ne 0
+    set_color red; echo -n ' '
+    set_color -bred black; echo -n $exitcode; set_color normal
+    set_color red; echo -n ''
     set_color normal
   end
-  echo '⌚ '
+  echo -n ' ⌚ '
   set_color 666
   date "+%H:%M:%S"
   set_color normal
