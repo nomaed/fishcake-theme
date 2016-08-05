@@ -24,7 +24,7 @@ function fish_prompt
   set -l hotpink (set_color df005f)
   set -l limegreen (set_color 87ff00)
   set -l purple (set_color af5fff)
-  
+
   # set stuff according to last exit code
   set -l _prompt_prefix_color
   set -l _prompt_char
@@ -85,7 +85,8 @@ function is_ssh_session
   end
 
   if set -q TMUX
-    if set -q SSH_CONNECTION; and not test "$SSH_CONNECTION" = "-SSH_CONNECTION"
+    set -l tmux_ssh_con (tmux show-env SSH_CONNECTION)
+    if not test -z "$tmux_ssh_con"; and not test "$tmux_ssh_con" = "-SSH_CONNECTION"
       return 0
     end
   end
