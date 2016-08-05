@@ -41,10 +41,11 @@ function fish_prompt
   set -g __fish_git_prompt_char_stateseparator ' '
   set -g __fish_git_prompt_color 5fdfff
   set -g __fish_git_prompt_color_flags df5f00
+  set -g ___fish_git_prompt_color_untrackedfiles (set_color 666666) 
   set -g __fish_git_prompt_color_prefix white
   set -g __fish_git_prompt_color_suffix white
   set -g __fish_git_prompt_showdirtystate true
-  set -g __fish_git_prompt_showuntrackedfiles true
+  set -g __fish_git_prompt_showuntrackedfiles false
   set -g __fish_git_prompt_showstashstate true
   set -g __fish_git_prompt_show_informative_status true
 
