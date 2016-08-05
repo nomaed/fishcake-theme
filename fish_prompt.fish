@@ -50,7 +50,7 @@ function fish_prompt
 
   # Line 1
   set -l prefix "$_prompt_prefix_color╭─$hotpink$USER$grey"
-  if set -q SSH_TTY
+  if is_ssh_session
     set prefix "$prefix@$orange$__fish_prompt_hostname$grey"
   end
   set prefix "$prefix:$limegreen"
@@ -77,4 +77,18 @@ function get_clock_and_status
   set_color 666
   date "+%H:%M:%S"
   set_color normal
+end
+
+function is_ssh_session
+  if set -q SSH_TTY
+    return 0
+  end
+
+  if set -q TMUX
+    if set -q SSH_CONNECTION; and not test "$SSH_CONNECTION" = "-SSH_CONNECTION"
+      return 0
+    end
+  end
+
+  return 1
 end
