@@ -91,7 +91,7 @@ function is_ssh_session
     end
 
     if set -q TMUX
-        set -l tmux_ssh_con (tmux show-env SSH_CONNECTION)
+        set -l tmux_ssh_con (tmux show-env | grep -e "^SSH_CONNECTION")
         if not test -z "$tmux_ssh_con"; and not test "$tmux_ssh_con" = "-SSH_CONNECTION"
             return 0
         end
