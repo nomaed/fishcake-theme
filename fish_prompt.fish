@@ -18,26 +18,17 @@ function fish_prompt
 
     set -l normal    (set_color normal)
     set -l white     (set_color FFFFFF)
-    set -l red       (set_color FF0000)
     set -l grey      (set_color 999999)
-    set -l darkgrey  (set_color 666666)
-    set -l turquoise (set_color 5fdfff)
     set -l orange    (set_color df5f00)
     set -l hotpink   (set_color df005f)
     set -l limegreen (set_color 87ff00)
-    set -l purple    (set_color af5fff)
 
     # set stuff according to last exit code
     set -l _prompt_prefix_color
     set -l _prompt_char
 
-    if set -q last_status; and test "$last_status" -eq 0
-        set _prompt_prefix_color $white
-        set _prompt_char $__fish_prompt_char
-    else
-        set _prompt_prefix_color $red
-        set _prompt_char '⛔ '
-    end
+    set _prompt_prefix_color $white
+    set _prompt_char $__fish_prompt_char
 
     # Configure __fish_git_prompt
     set -g __fish_git_prompt_char_stateseparator ' '
@@ -53,9 +44,11 @@ function fish_prompt
     set -g __fish_git_prompt_showstashstate     true
     set -g __fish_git_prompt_show_informative_status true
 
+    set -l in_ssh (is_ssh_session)
+
     # Line 1
     set -l prefix $_prompt_prefix_color'╭─'$hotpink$USER$grey
-    if is_ssh_session
+    if test "$in_ssh" = true 
         set prefix $prefix@$orange$__fish_prompt_hostname$grey
     end
     set prefix $prefix:$limegreen
@@ -73,9 +66,8 @@ end
 function get_clock_and_status
     set -l exitcode $argv[1]
     if test "$exitcode" -ne 0
-        set_color red; echo -n ' '
-        set_color -bred black; echo -n $exitcode; set_color normal
-        set_color red; echo -n ''
+        set_color f55
+        echo -n ' ⛔ '$exitcode
         set_color normal
     end
 
@@ -87,15 +79,15 @@ end
 
 function is_ssh_session
     if set -q SSH_TTY
-        return 0
+        echo true
+        return
     end
 
     if set -q TMUX
-        set -l tmux_ssh_con (tmux show-env | grep -e "^SSH_CONNECTION")
-        if not test -z "$tmux_ssh_con"; and not test "$tmux_ssh_con" = "-SSH_CONNECTION"
-            return 0
+        set -l tmux_ssh_con (tmux show-env | grep -e "^SSH_CONNECTION=")
+        if test -n "$tmux_ssh_con"
+            echo true
+            return
         end
     end
-
-    return 1
 end
