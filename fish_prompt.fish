@@ -68,11 +68,10 @@ function get_clock_and_status
     if test "$exitcode" -ne 0
         set_color f55
         echo -n ' ⛔ '$exitcode
-        set_color normal
     end
 
+    set_color 999
     echo -n ' ⌚ '
-    set_color 666
     date "+%H:%M:%S"
     set_color normal
 end
