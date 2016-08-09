@@ -67,7 +67,7 @@ function get_clock_and_status
     set -l exitcode $argv[1]
     if test "$exitcode" -ne 0
         set_color f55
-        echo -n ' ⛔ '$exitcode
+        echo -n ' ✘'$exitcode
     end
 
     set_color 999
